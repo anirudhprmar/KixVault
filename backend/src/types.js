@@ -7,3 +7,7 @@ export const signupSchema = z.object({
     
 
 })
+export const loginSchema = z.object({
+    email:z.string().email(),
+    password:z.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+})
