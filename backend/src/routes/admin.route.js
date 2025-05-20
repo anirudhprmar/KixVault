@@ -1,12 +1,13 @@
 import express from "express"
-// import { login, logout, signup, updateProfile, checkAuth,deleteProfile } from "../controllers/auth.controller.js"
 import protectRoute from "../middleware/auth.middleware.js"
+import { getProducts, addProduct,getEditProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
 
-const app = express()
+
 
 const router = express.Router()
 
-app.use(protectRoute)
+router.use(protectRoute)
+
 //get all products
 router.get('/',getProducts)
 
