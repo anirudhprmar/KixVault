@@ -35,7 +35,7 @@ export const addProduct = async(req,res)=>{
             price:ProductInfo.data.price, 
             description:ProductInfo.data.description,
             imageUrl:ProductInfo.data.imageURL,
-            userId:req.user.id,
+            userId:req.user._id,
             stock:ProductInfo.data.stock,
             category:ProductInfo.data.category 
         })
