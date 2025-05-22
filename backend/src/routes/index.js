@@ -7,7 +7,7 @@ const router = express.Router()
 
 app.use("/auth",authRoutes) // authentication of user
 
-app.use("/products",adminRoutes) // admin control of products 
+app.use("/admin",adminRoutes) // admin control of products 
 
 app.use("/shop",shopRoutes) // handles order and review
 

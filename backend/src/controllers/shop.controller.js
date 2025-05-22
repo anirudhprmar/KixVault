@@ -1,6 +1,17 @@
 import Order from "../models/order.model";
 import Product from "../models/product.model";
-import User from "../models/user.model";
+
+export const getProducts = async (req,res) => {
+ try {
+   const allProducts = await Product.find({});
+   res.status(200).json({
+     products:allProducts
+   })
+ } catch (error) {
+  console.log('error in get products',error);
+  res.status(500).json({msg:"Internal server error"})
+ }
+}
 
 export const getProduct = async(req,res)=>{
 
@@ -31,7 +42,7 @@ export const getCart = async(req,res)=>{
       const user = req.user
       
         res.status(200).json({
-            cart:user.cart.items.productId
+            cart:user.cart.items.productId // this is can be error
         })
 
     } catch (error) {
@@ -43,7 +54,7 @@ export const getCart = async(req,res)=>{
 export const postCart = async(req,res)=>{
      try {
 
-      const productId =req.body.productId
+      const {productId} =req.params
 
       const product = await Product.findById(productId)
       if (!product) {
@@ -67,7 +78,7 @@ export const postCart = async(req,res)=>{
 
 export const putCartDeleteProduct = async(req,res)=>{
   try {
-    const productId =req.body.productId
+    const {productId} =req.params
 
     const product = await Product.findById(productId)
     if (!product) {

@@ -12,6 +12,6 @@ router.post('/logout', logout)
 
 router.get('/check', protectRoute , checkAuth)
 
-router.delete('/deleteProfile',protectRoute,deleteProfile)
+router.delete('/delete-profile',protectRoute,deleteProfile)
 
 export default router;
