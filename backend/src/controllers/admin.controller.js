@@ -1,5 +1,6 @@
 import Product from "../models/product.model";
 import { productSchema } from "../types";
+import cloudinary from "../lib/cloudinary";
 
 export const getProducts = async(req,res)=>{
     try {
@@ -23,19 +24,27 @@ export const addProduct = async(req,res)=>{
 
     try {
         const ProductInfo = productSchema.safeParse(req.body)
+
+        const userId = req.user._id
     
         if (!ProductInfo.success) {
             return res.status(411).json({
                 msg:"invalid inputs"
             })
         }
+
+         const uploadResponse = await cloudinary.uploader.upload(ProductInfo.data.profilePic);
+         const updatedUser = await User.findByIdAndUpdate(userId,{profilePic:uploadResponse.secure_url},{new:true})
+
     
         await Product.create({
-            title:ProductInfo.data.title,
+            name:ProductInfo.data.name,
+            brand:ProductInfo.data.brand,
             price:ProductInfo.data.price, 
             description:ProductInfo.data.description,
-            imageUrl:ProductInfo.data.imageURL,
+            imageUrl:updatedUser,
             userId:req.user._id,
+            sizes:ProductInfo.data.sizes,
             stock:ProductInfo.data.stock,
             category:ProductInfo.data.category 
         })
@@ -50,26 +59,26 @@ export const addProduct = async(req,res)=>{
     }
 }
 
-export const getEditProduct = async(req,res)=>{
-    try {
-        const {productId} = req.params;
-        const existingProduct = await Product.findById(productId)
-        if (!existingProduct) {
-            return res.status(411).json({
-                msg:"product doesn't exists"
-            })
-        }
+// export const getEditProduct = async(req,res)=>{
+//     try {
+//         const {productId} = req.params;
+//         const existingProduct = await Product.findById(productId)
+//         if (!existingProduct) {
+//             return res.status(411).json({
+//                 msg:"product doesn't exists"
+//             })
+//         }
 
-        res.status(200).json({
-            status:"success",
-            product:existingProduct
-        })
+//         res.status(200).json({
+//             status:"success",
+//             product:existingProduct
+//         })
 
-    } catch (error) {
-         console.log('error in get specific product',error);
-        res.status(501).json({msg:"Internal server error"})
-    }
-}
+//     } catch (error) {
+//          console.log('error in get specific product',error);
+//         res.status(501).json({msg:"Internal server error"})
+//     }
+// }
 
 export const postEditProduct = async(req,res)=>{
     try {

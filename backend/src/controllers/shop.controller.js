@@ -1,5 +1,7 @@
 import Order from "../models/order.model";
 import Product from "../models/product.model";
+import Review from "../models/review.model";
+import User from "../models/user.model";
 
 export const getProducts = async (req,res) => {
  try {
@@ -161,6 +163,127 @@ export const getOrders = async (req,res) => {
     })
   } catch (error) {
      console.log('error in get orders', error);
+    res.status(500).json({msg:"Internal server error"})
+  }
+}
+
+export const postWishlist = async (req,res) => {
+  try {
+    const {productId} =req.params
+    const user = req.user
+  
+      const product = await Product.findById(productId)
+      if (!product) {
+        return res.status(411).json({
+          msg:"this product does not exist"
+        })
+      }
+  
+      const itemAddedToWishlist = await User.updateOne({
+        _id:user._id
+      },{
+        wishlist:{
+          items:[product]
+        }
+      })
+
+      res.status(200).json({
+        msg:"Item added to wishlist",
+        item:itemAddedToWishlist
+      })
+  } catch (error) {
+    console.log('error in post wishlist', error);
+    res.status(500).json({msg:"Internal server error"})
+  }
+
+}
+
+export const putWishlist = async (req,res) => {
+  try {
+    const {productId} =req.params
+    const user = req.user
+  
+      const product = await Product.findById(productId)
+      if (!product) {
+        return res.status(411).json({
+          msg:"this product does not exist"
+        })
+      }
+  
+      const itemRemovedToWishlist = await User.findByIdAndDelete({
+        _id:user._id
+      },{
+        wishlist:{
+          items:[product]
+        }
+      })
+
+      res.status(200).json({
+        msg:"Item added to wishlist",
+        item:itemRemovedToWishlist
+      })
+  } catch (error) {
+    console.log('error in put wishlist', error);
+    res.status(500).json({msg:"Internal server error"})
+  }
+}
+
+export const addReview = async (req,res) => {
+   try {
+    const {productId} =req.params
+    const {userRating,userComment} = req.body
+    const user = req.user
+  
+      const product = await Product.findById(productId)
+      if (!product) {
+        return res.status(411).json({
+          msg:"this product does not exist"
+        })
+      }
+  
+      const userReview = await Review.create({
+        user:{
+          email:user.email,
+          userId:user._id
+        },
+        productId:productId,
+        rating:userRating,
+        comment:userComment
+      })
+
+
+      res.status(200).json({
+        msg:"review added",
+        review:userReview
+      })
+
+
+  } catch (error) {
+    console.log('error in add review', error);
+    res.status(500).json({msg:"Internal server error"})
+  }
+}
+export const removeReview = async (req,res) => {
+   try {
+    const {productId} = req.params
+  
+      const product = await Product.findById(productId)
+      if (!product) {
+        return res.status(411).json({
+          msg:"this product does not exist"
+        })
+      }
+      // find that product id and delte review completely for that product id
+  
+      await Review.findByIdAndDelete({
+        productId: productId
+      })
+
+      res.status(200).json({
+        msg:"review deleted",
+      })
+  } catch (error) {
+    console.log('error in add review', error);
     res.status(500).json({msg:"Internal server error"})
   }
 }

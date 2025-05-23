@@ -13,10 +13,12 @@ export const loginSchema = z.object({
 })
 
 export const productSchema = z.object({
-    title:z.string(),
+    name:z.string(),
+    brand:z.string(),
     price:z.number(), // it works then cool , if it doesn't then make it string and then parse it into int / number
     description:z.string(),
-    imageURL:z.string().optional(),
+    imageURL:z.string(),
+    sizes:z.array().number(),
     stock:z.number(),
     category:z.array().string() // might be errorneous
 })

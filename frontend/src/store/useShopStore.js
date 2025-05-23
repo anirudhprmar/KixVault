@@ -82,5 +82,38 @@ export const useShopStore = create((set)=>({
     } catch (error) {
         console.log("error in place order",error);
     }    
+    },
+    wishlist:false,
+    addToWishlist:async(data)=>{
+        try {
+            const res = await axiosInstance.post('/admin/add-item-wishlist/:productId',data)
+            set({wishlist:res.data.item})
+        } catch (error) {
+            console.log("error in add to wishlist",error);
+         }    
+    },
+    removeFromWishlist:async () => {
+        try {
+            await axiosInstance.delete('/admin/wishlist/:productId')
+        } catch (error) {
+         console.log("error in remove from wishlist",error);
+        }    
+    },
+    reviews:false,
+    addReview:async (data) => {
+       try {
+         const res = await axiosInstance.post('/admin/review/:productId',data)
+         set({reviews:res.data.review})
+       } catch (error) {
+        console.log("error in add review",error);
+        }    
+    },
+    deleteReview:async () => {
+        try {
+            await axiosInstance.delete('/admin/review/:productId')
+        } catch (error) {
+            console.log("error in delete review",error);
+            
+        }
     }
 }))

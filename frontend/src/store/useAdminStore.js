@@ -23,18 +23,18 @@ export const useAdminStore = create((set)=>({
             console.log("Error in get product:",error );
         }
     },
-    product:false,
-    specificProduct:async (data)=>{
-        set({productsAvailable:true})
-        try {
-            const res = await axiosInstance.get('/admin/edit-product/:productId',data)
-            set({product:res.data})
-        } catch (error) {
-            console.log("Error in get product:",error );
-        }finally{
-            set({productsAvailable:false})
-        }
-    },
+    // product:false,
+    // specificProduct:async (data)=>{
+    //     set({productsAvailable:true})
+    //     try {
+    //         const res = await axiosInstance.get('/admin/edit-product/:productId',data)
+    //         set({product:res.data})
+    //     } catch (error) {
+    //         console.log("Error in get product:",error );
+    //     }finally{
+    //         set({productsAvailable:false})
+    //     }
+    // },
     productUpdating:false,
     productUpdated:false,
     updateSpecificProduct:async (data)=>{
@@ -50,7 +50,7 @@ export const useAdminStore = create((set)=>({
     },
     deleteProduct: async (data) => {
         try {
-            await axiosInstance.delete('/:productId',data)
+            await axiosInstance.delete('/admin/:productId',data)
         } catch (error) {
             console.log("Error in get product:",error );
         }
