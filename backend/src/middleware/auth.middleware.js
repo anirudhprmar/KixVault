@@ -1,8 +1,8 @@
-import { verifyToken } from "../lib/utils";
-import User from "../models/user.model";
+import { verifyToken } from "../lib/utils.js";
+import User from "../models/user.model.js";
 
 
-export const protectRoute = async(req,res) =>{
+const protectRoute = async(req,res,next) =>{
   try {
       const authHeader = req.headers.authorization
   
@@ -11,8 +11,7 @@ export const protectRoute = async(req,res) =>{
               msg:"Invalid Inputs"
           })
       }
-  
-      const token = authHeader.split(' ')[1];
+      const token = req.cookies.jwt || req.headers.authorization?.split(' ')[1];
 
        if (!token) {
             return res.status(401).json({
@@ -49,3 +48,5 @@ export const protectRoute = async(req,res) =>{
         })
   }
 }
+
+export default protectRoute

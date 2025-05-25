@@ -18,14 +18,15 @@ import Profile from './pages/User Focused/Profile'
 import Wishlist from './pages/User Focused/Wishlist'
 import AuthLayout from './components/auth/Authlayout'
 import AdminAuthlayout from './components/auth/AdminAuthlayout'
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 
 function App() {
   return (
     <>
        <BrowserRouter>
-
-        {/* Navbar/Header component here */}
+        <Navbar/>
 
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -52,8 +53,7 @@ function App() {
         
         </Routes>
 
-
-        {/* Footer component here */}
+        <Footer/>
 
       </BrowserRouter>
     </>

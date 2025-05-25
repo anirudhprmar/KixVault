@@ -6,7 +6,7 @@ import { LoaderCircle } from 'lucide-react';
 export default function AdminAuthlayout() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/discover";
+  const from = location.state?.from?.pathname || "/admin";
 
   useEffect(() => {
     checkAuth();

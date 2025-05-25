@@ -22,11 +22,12 @@ export const signup = async(req,res)=>{
             })
         }
     
-        const salt = bcrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(validatedData.data.password,salt);
     
         const newUser = await User.create({
-            ...validatedData,
+            username: validatedData.data.username,
+            email: validatedData.data.email,
             password:hashedPassword
         })
     
@@ -70,6 +71,7 @@ export const login = async (req,res) => {
      }
  
      const token = generateToken(existingUser._id,res);
+
      res.status(200).json({
          status: 'success',
          token
@@ -107,7 +109,7 @@ export const checkAuth = (req,res)=>{
 export const deleteProfile = async (req,res) => {
     try {
         const user = req.user
-        const deletedUser = await User.findByIdAndDelete(user.id)
+        const deletedUser = await User.findByIdAndDelete(user._id)
 
          if(!deletedUser){
             return res.status(404).json({

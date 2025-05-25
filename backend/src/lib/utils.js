@@ -1,6 +1,24 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-dotenv.config()
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+// Load environment variables
+dotenv.config({ path: join(__dirname, '../../.env') })
+
+// Add debug logging
+console.log('JWT_SECRET status:', {
+  exists: !!process.env.JWT_SECRET,
+  length: process.env.JWT_SECRET?.length
+})
+
+if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not defined in environment variables');
+}
+
 
 const JWT_SECRET = process.env.JWT_SECRET ;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '30d';

@@ -1,24 +1,24 @@
-import Product from "../models/product.model";
-import { productSchema } from "../types";
-import cloudinary from "../lib/cloudinary";
+import Product from "../models/product.model.js";
+import { productSchema } from "../types.js";
+import cloudinary from "../lib/cloudinary.js";
 
-export const getProducts = async(req,res)=>{
-    try {
-        const isUserAdmin = req.user.isAdmin
-        const products = await Product.find({isAdmin:isUserAdmin})
+// export const getProducts = async(req,res)=>{
+//     try {
+//         const isUserAdmin = req.user.isAdmin
+//         const products = await Product.find({isAdmin:isUserAdmin})
         
-        res.status(200).json({
-            status:"success",
-            products
-        })
+//         res.status(200).json({
+//             status:"success",
+//             products
+//         })
 
-    } catch (error) {
-            console.log('error in get products',error);
-        res.status(500).json({
-            msg:"internal server error"
-        })
-    }
-}
+//     } catch (error) {
+//             console.log('error in get products',error);
+//         res.status(500).json({
+//             msg:"internal server error"
+//         })
+//     }
+// }
 
 export const addProduct = async(req,res)=>{
 
@@ -33,8 +33,18 @@ export const addProduct = async(req,res)=>{
             })
         }
 
-         const uploadResponse = await cloudinary.uploader.upload(ProductInfo.data.profilePic);
-         const updatedUser = await User.findByIdAndUpdate(userId,{profilePic:uploadResponse.secure_url},{new:true})
+             // Validate that imageUrl is provided
+        if (!ProductInfo.data.imageUrl) {
+            return res.status(400).json({
+                msg: "Image URL is required"
+            });
+        }
+
+         const uploadResponse = await cloudinary.uploader.upload(ProductInfo.data.imageUrl,{
+            folder:'products',
+            resource_type:'auto'
+         });
+        //  const updatedUser = await User.findByIdAndUpdate(userId,{imageUrl:uploadResponse.secure_url},{new:true})
 
     
         await Product.create({
@@ -42,7 +52,7 @@ export const addProduct = async(req,res)=>{
             brand:ProductInfo.data.brand,
             price:ProductInfo.data.price, 
             description:ProductInfo.data.description,
-            imageUrl:updatedUser,
+            imageUrl:uploadResponse.secure_url,
             userId:req.user._id,
             sizes:ProductInfo.data.sizes,
             stock:ProductInfo.data.stock,
@@ -50,7 +60,7 @@ export const addProduct = async(req,res)=>{
         })
     
         res.status(200).json({
-            msg:"Product added"
+            msg:"Product added successfully"
         })
 
     } catch (error) {

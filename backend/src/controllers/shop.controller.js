@@ -1,7 +1,7 @@
-import Order from "../models/order.model";
-import Product from "../models/product.model";
-import Review from "../models/review.model";
-import User from "../models/user.model";
+import Order from "../models/order.model.js";
+import Product from "../models/product.model.js";
+import Review from "../models/review.model.js";
+import User from "../models/user.model.js";
 
 export const getProducts = async (req,res) => {
  try {

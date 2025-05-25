@@ -1,6 +1,6 @@
 import express from "express"
 import protectRoute from "../middleware/auth.middleware.js"
-import { getProducts, addProduct,getEditProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
+import { addProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
 
 
 

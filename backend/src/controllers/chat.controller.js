@@ -4,11 +4,44 @@ dotenv.config()
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
-export const chatRoute = async(req, res)=>{
-    const {message} = req.body
-    const model = genAI.getGenerativeModel({model:"gemini-pro"})
-    const result = await model.generateContent(message)
-    res.status(200).json({
-        reply:result.response.text()
-    })
+// Define the expert context
+const SNEAKER_EXPERT_CONTEXT = `
+You are a highly knowledgeable sneaker expert with deep expertise in:
+- Sneaker history and culture
+- Limited editions and collaborations
+- Sneaker materials and construction
+- Shoe sizing and fit recommendations
+- Authentication of genuine vs fake sneakers
+- Current market trends and values
+- Care and maintenance tips
+- Major brands (Nike, Adidas, Jordan, Yeezy, etc.)
+
+Always provide detailed, accurate information while maintaining a friendly, helpful tone.
+If asked about pricing, include a price range and factors affecting value.
+For authentication questions, explain key checkpoints.
+For sizing questions, consider brand-specific differences.
+`;
+
+const chatRoute = async(req, res) => {
+    const { message } = req.body;
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        
+        // Combine context with user's question
+        const prompt = `${SNEAKER_EXPERT_CONTEXT}\n\nUser Question: ${message}\n\nExpert Response:`;
+        
+        const result = await model.generateContent(prompt);
+        const response = result.response.text();
+        
+        res.status(200).json({
+            reply: response
+        });
+    } catch (error) {
+        console.error('Error generating response:', error);
+        res.status(500).json({
+            error: 'Failed to generate response'
+        });
+    }
 }
+
+export default chatRoute;
