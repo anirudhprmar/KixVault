@@ -22,9 +22,9 @@ export const useShopStore = create((set)=>({
         }
     },
     viewingProduct:false,
-    getProduct:async (data) => {
+    getProduct:async (productId) => {
         try {
-            const res = await axiosInstance.get('/shop/products/:productId',data)
+            const res = await axiosInstance.get(`/shop/products/${productId}`)
            set({viewingProduct:res.data.product})
         } catch (error) {
             console.log("error in get product",error);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
+
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -22,11 +22,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
+  // userId: { no need to show user the person who created it
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true
+  // },
   sizes:[Number],
   stock:Number,
   category: [String]

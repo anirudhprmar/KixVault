@@ -8,7 +8,7 @@ function Homepage() {
   return (
     <div>
 
-    <main className="mt-[88px]">
+    <main >
       <section>
       {/* Hero section */}
       <video
@@ -18,29 +18,25 @@ function Homepage() {
       //  autoPlay
       //  loop
       />
-      </section>
-
-    {/* <div className=" absolute bottom-5 right-8">
-      <Chat />
-    </div> */} // make it fixed throughout the page
-
+      </section> 
       
       <Popup/>
       
 
-    <section className='min-h-screen'>
-      <h2 className='text-3xl font-bold text-center pt-10'>TRENDING SNEAKERS</h2>
-      <Sneakers/>
-    </section>
+      <section className='min-h-screen'>
+        <h2 className='text-3xl font-bold text-center pt-10'>TRENDING SNEAKERS</h2>
+        <Sneakers/>
+      </section>
 
-    <section>
-      {/* CTA */}
+      <section>
+        {/* CTA */}
+        {/* gotta do it */}
+      </section>
 
-    </section>
+      </main>
 
-    </main>
+      <Footer/> 
 
-    <Footer/> 
     </div>
 
 

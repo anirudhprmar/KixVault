@@ -50,8 +50,8 @@ export default function Chat() {
       <div>
         <button
         onClick={()=>setClicked(!clicked)}
-        className= {clicked ? "hidden" : "cursor-pointer block"}
-        ><MessageCircleMore className="size-10 text-gray-50"/></button>
+        className= {clicked ? "hidden" : "cursor-pointer block bg-gray-900 rounded-full border border-gray-50 p-2"}
+        ><MessageCircleMore className="size-9 text-gray-50"/></button>
       </div>
     {clicked && <div className="fixed bottom-4 right-4 bg-white border border-gray-200 p-4 rounded-xl shadow-lg w-96 max-h-[600px] flex flex-col">
       <div className="flex items-center justify-between mb-4">

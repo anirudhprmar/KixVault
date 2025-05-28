@@ -33,7 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/products" element={<ProductsListPage />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/product/:productId" element={<ProductDetailPage />} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -56,7 +56,11 @@ function App() {
 
 
         <Toaster/>
-        <Chat/>
+    
+      <div className=" fixed bottom-5 right-8">
+        <Chat />
+      </div> 
+
       </BrowserRouter>
 
     </>
