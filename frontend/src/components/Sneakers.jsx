@@ -1,50 +1,49 @@
 import { useEffect } from 'react'
 import { useShopStore } from '../store/useShopStore'
-import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
+import ProductCard from './ProductCard'
 
 function Sneakers() {
-   const {getProducts,allProducts,productsLoading} = useShopStore()
+  // const navigate = useNavigate()
+   const {getProducts,allProducts,productsLoading,error} = useShopStore()
 
    useEffect(()=>{
     getProducts()
    },[getProducts])
+   
 
    if (productsLoading) {
     // show skeleton for products loading (blinking)
     <div>No products</div>
    }
 
-   const fewDisplayProducts = allProducts.slice(0,6)
-
-   const navigate = useNavigate()
-
-   const handleProductClick = (product)=>{
-    navigate(`/product/${product.id}`)
+   if (error) {
+    return toast.error(error)
    }
+  
+  const fewDisplayProducts = allProducts.slice(0,6) 
 
-  return (
-    <div>
-      {/* 6 products to display from all products */}
-        {/* work on it later */}
-        {
-          fewDisplayProducts.map(p =>{
-            <div key={p._id} onClick={handleProductClick(p._id)}>
-              <div>
-                {p.imageUrl}
-              </div>
-              <div>
-                <p>{p.name}</p>
-                <p>{p.brand}</p>
-                <p>{p.description}</p>
-              </div>
-              <div>
-                <p>{p.price}</p>
-              </div>
-            </div>
-          })
-        }
+  
+
+
+
+
+ return (
+  <div className="container mx-auto px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 px-10 pb-10">
+      {fewDisplayProducts.map(product => (
+        <ProductCard
+          key={product._id}
+          pId={product._id}
+          name={product.name}
+          brand={product.brand}
+          price={product.price}
+          imageUrl={product.imageUrl}
+        />
+      ))}
     </div>
-  )
+  </div>
+)
 }
 
 export default Sneakers

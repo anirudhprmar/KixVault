@@ -2,7 +2,10 @@ import {
   BrowserRouter,
   Route,
   Routes,
-} from "react-router-dom";
+} from "react-router";
+
+import { Toaster } from 'react-hot-toast';
+
 
 import Homepage from './pages/Homepage'
 import ProductsListPage from './pages/ProductsListPage'
@@ -19,7 +22,6 @@ import Wishlist from './pages/User Focused/Wishlist'
 import AuthLayout from './components/auth/Authlayout'
 import AdminAuthlayout from './components/auth/AdminAuthlayout'
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 
 
 function App() {
@@ -35,7 +37,6 @@ function App() {
           <Route path="/cart" element={<Cart/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/chat" element={<Chat />} />
 
 
           <Route element={<AdminAuthlayout />} >
@@ -53,9 +54,11 @@ function App() {
         
         </Routes>
 
-        <Footer/>
 
+        <Toaster/>
+        <Chat/>
       </BrowserRouter>
+
     </>
   )
 }

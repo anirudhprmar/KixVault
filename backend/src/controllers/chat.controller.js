@@ -2,6 +2,13 @@ import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config()
 
+if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not defined in environment variables');
+    process.exit(1);
+}
+
+// console.log('Gemini API Key status:', process.env.GEMINI_API_KEY ? 'Set' : 'Not Set');
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 // Define the expert context
@@ -25,13 +32,13 @@ For sizing questions, consider brand-specific differences.
 const chatRoute = async(req, res) => {
     const { message } = req.body;
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         
         // Combine context with user's question
         const prompt = `${SNEAKER_EXPERT_CONTEXT}\n\nUser Question: ${message}\n\nExpert Response:`;
         
         const result = await model.generateContent(prompt);
-        const response = result.response.text();
+        const response = await result.response.text();
         
         res.status(200).json({
             reply: response

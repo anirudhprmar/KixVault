@@ -3,8 +3,9 @@ import {axiosInstance} from "../lib/axios.js"
 // import toast from "react-hot-toast";
 
 export const useShopStore = create((set)=>({
-    allProducts:false,
+    allProducts:[],
     productsLoading:false,
+    error:null,
     getProducts:async () => {
         set({productsLoading:true})
         try {
@@ -12,6 +13,10 @@ export const useShopStore = create((set)=>({
             set({allProducts:res.data.products})
         } catch (error) {
             console.log('error in get products',error);
+            set({ 
+                error: error.response?.data?.message || 'Failed to fetch products',
+                allProducts: []
+            })
         }finally{
             set({productsLoading:false})
         }

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation, Navigate } from 'react-router-dom';
+import { Outlet, useLocation, Navigate } from 'react-router';
 import { useAuthStore } from '../../store/useAuthStore';
 import { LoaderCircle } from 'lucide-react';
 

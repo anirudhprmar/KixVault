@@ -2,9 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import { useChatBotStore } from '../store/useChatbotStore';
 import { BiSend } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import {MessageCircleMore, X} from 'lucide-react'
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      role:"ai",
+    content: "Hi! I'm your sneaker expert. Ask me anything about sneakers!"
+    }
+  ]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
   const { aiResponse, response, loading } = useChatBotStore();
@@ -37,11 +43,24 @@ export default function Chat() {
     await aiResponse(userInput);
   };
 
+  const [clicked,setClicked] = useState(false)
+
   return (
-    <div className="fixed bottom-4 right-4 bg-white border border-gray-200 p-4 rounded-xl shadow-lg w-96 max-h-[600px] flex flex-col">
+    <div>
+      <div>
+        <button
+        onClick={()=>setClicked(!clicked)}
+        className= {clicked ? "hidden" : "cursor-pointer block"}
+        ><MessageCircleMore className="size-10 text-gray-50"/></button>
+      </div>
+    {clicked && <div className="fixed bottom-4 right-4 bg-white border border-gray-200 p-4 rounded-xl shadow-lg w-96 max-h-[600px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-lg">Sneaker Expert</h3>
-        <div className="h-2 w-2 rounded-full bg-green-500"></div>
+        {/* <div className="h-2 w-2 rounded-full bg-green-500"></div> */}
+        <button
+        onClick={()=>setClicked(false)}
+        className="cursor-pointer hover:bg-gray-100 p-1 rounded-lg transition-colors"
+        ><X/></button>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-3 mb-4 min-h-[300px] max-h-[400px] scrollbar-thin scrollbar-thumb-gray-300">
@@ -87,6 +106,7 @@ export default function Chat() {
           <BiSend size={20} />
         </button>
       </div>
+    </div>}
     </div>
   );
 }

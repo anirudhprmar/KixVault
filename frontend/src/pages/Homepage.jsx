@@ -1,13 +1,49 @@
-
 import Sneakers from '../components/Sneakers'
+import Popup from "../components/Popup"
+import Footer from "../components/Footer";
+
 
 function Homepage() {
+
   return (
     <div>
+
+    <main className="mt-[88px]">
+      <section>
       {/* Hero section */}
+      <video
+      src='../video/vid1.mp4'
+       width='1540'
+       muted
+      //  autoPlay
+      //  loop
+      />
+      </section>
+
+    {/* <div className=" absolute bottom-5 right-8">
+      <Chat />
+    </div> */} // make it fixed throughout the page
+
+      
+      <Popup/>
+      
+
+    <section className='min-h-screen'>
+      <h2 className='text-3xl font-bold text-center pt-10'>TRENDING SNEAKERS</h2>
       <Sneakers/>
-      {/* coursel */}
+    </section>
+
+    <section>
+      {/* CTA */}
+
+    </section>
+
+    </main>
+
+    <Footer/> 
     </div>
+
+
   )
 }
 

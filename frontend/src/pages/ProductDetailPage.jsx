@@ -15,6 +15,9 @@ function ProductDetailPage() {
 
   },[id,getProduct,viewingProduct])
 
+  console.log(getProduct(id));
+  
+
   if (!product) {
     // again loading skeleton
     <div>No products</div>
@@ -23,7 +26,7 @@ function ProductDetailPage() {
   return (
     <div>
       <div>
-        {product.imageUrl}
+        {/* {product.imageUrl} */}
       </div>
       <div>
         <h2>{product.name}</h2>
