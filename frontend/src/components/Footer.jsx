@@ -1,6 +1,6 @@
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 
-export default function SneakerStoreFooter() {
+export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
      

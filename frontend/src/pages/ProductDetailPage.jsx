@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useShopStore } from '../store/useShopStore'
 import { useParams, useNavigate } from 'react-router'
+import Navbar from '../components/Navbar'
 
 function ProductDetailPage() {
   const { getProduct, viewingProduct } = useShopStore()
@@ -36,7 +37,10 @@ function ProductDetailPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
+
+    <div>
+      <Navbar/>
+    <main className="container mx-auto px-4 py-8 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-5">
         <div className="aspect-square overflow-hidden rounded-lg">
           <img 
@@ -85,6 +89,7 @@ function ProductDetailPage() {
           </div>
         </div>
       </div>
+    </main>
     </div>
   )
 }

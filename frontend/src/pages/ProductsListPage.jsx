@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import { useShopStore } from '../store/useShopStore'
 import { useNavigate } from 'react-router'
+import Navbar from '../components/Navbar'
 
 function ProductsListPage() {
   const {getProducts,allProducts,productsLoading} = useShopStore()
@@ -20,6 +21,7 @@ const navigate = useNavigate()
   
   return (
     <div>
+      <Navbar/>
       {allProducts.map(p =>{
        <div key={p._id} onClick={handleProductClick(p._id)}>
               <div>

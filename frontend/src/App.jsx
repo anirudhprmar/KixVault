@@ -28,13 +28,12 @@ function App() {
   return (
     <>
        <BrowserRouter>
-        <Navbar/>
+        {/* <Navbar/> */}
 
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/products" element={<ProductsListPage />} />
           <Route path="/product/:productId" element={<ProductDetailPage />} />
-          <Route path="/cart" element={<Cart/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
@@ -50,6 +49,7 @@ function App() {
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order/:id" element={<Order />} />
+          <Route path="/cart" element={<Cart/>} />
           </Route>
         
         </Routes>

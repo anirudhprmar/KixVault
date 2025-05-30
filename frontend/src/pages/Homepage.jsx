@@ -1,12 +1,15 @@
 import Sneakers from '../components/Sneakers'
 import Popup from "../components/Popup"
 import Footer from "../components/Footer";
+import Navbar from '../components/Navbar';
 
 
 function Homepage() {
 
   return (
     <div>
+
+      <Navbar/>
 
     <main >
       <section>

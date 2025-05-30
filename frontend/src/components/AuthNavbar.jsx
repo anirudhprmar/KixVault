@@ -1,7 +1,7 @@
-import { Menu } from "lucide-react"
+// import { Menu } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 
-function Navbar() {
+function AuthNavbar() {
   const navigate=useNavigate()
 
   return (
@@ -36,4 +36,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default AuthNavbar

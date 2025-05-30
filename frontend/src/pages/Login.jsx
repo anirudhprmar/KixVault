@@ -2,6 +2,9 @@ import { useState } from "react"
 import { useNavigate, Link } from 'react-router';
 import {useForm} from 'react-hook-form'
 import {useAuthStore} from '../store/useAuthStore'
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import {Eye,EyeOff,MoveRight} from 'lucide-react'
 
 function Login() {
     const navigate = useNavigate()
@@ -20,9 +23,18 @@ function Login() {
   }
   return (
     <div>
-      <div>
+
+      <Navbar/>
+
+      <main className="min-h-full">
+
+        <section>
+          <div className="text-center text-3xl pt-10 font-bold">Login</div>
+        </section>
+        
+        <section>
           <form onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col px-10 gap-3 '
+          className='flex flex-col gap-3 py-40  justify-center items-center'
           >
             <div className='flex flex-col  gap-1 xl:w-xl'>
               <label htmlFor="email" className='text-2xl'>Email</label>
@@ -32,8 +44,8 @@ function Login() {
                 placeholder="johndoe@gmail.com"
                 {...register("email")}
                 className='text-xl px-4 py-2 rounded-lg border border-gray-300 bg-white/5 
-                focus:outline-none focus:ring-2 focus:ring-[#0A3E3E] focus:border-transparent 
-                transition-all duration-300 hover:border-[#0A3E3E]'
+                focus:outline-none focus:ring-2 focus:ring-[#030303] focus:border-transparent 
+                transition-all duration-300 hover:border-[#030303]'
               />
             </div>
 
@@ -46,8 +58,8 @@ function Login() {
                 "
                 {...register("password")}
                 className='text-xl px-4 py-2 rounded-lg border border-gray-300 bg-white/5 
-                focus:outline-none focus:ring-2 focus:ring-[#0A3E3E] focus:border-transparent 
-                transition-all duration-300 hover:border-[#0A3E3E]'
+                focus:outline-none focus:ring-2 focus:ring-[#030303] focus:border-transparent 
+                transition-all duration-300 hover:border-[#030303]'
               />
               <button
               className=' absolute right-4 top-[60%]  cursor-pointer'
@@ -59,7 +71,7 @@ function Login() {
 
 
       <button type="submit" disabled={isLoggingIn}>
-        {isLoggingIn ?  <LoaderCircle size={4} className=' animate-spin'/> : <div className='w-full bg-[#0A3E3E] rounded-xl py-2 mt-3 xl:w-xl cursor-pointer'>
+        {isLoggingIn ?  <LoaderCircle size={4} className=' animate-spin'/> : <div className='w-full bg-[#030303] rounded-xl py-2 mt-3 xl:w-xl cursor-pointer'>
           <span className='flex gap-3 text-2xl items-center justify-center text-white '>Login <MoveRight/> </span>
         </div>}
       </button>
@@ -67,11 +79,14 @@ function Login() {
             <div className='flex gap-2 justify-between xl:w-xl'>
               <p>Don't have an account?</p>
                   
-              <Link to={'/register'} className='text-[#0D7B7B]'>Register Here</Link> 
+              <Link to={'/register'} className='text-[##030303]'>Register Here</Link> 
             </div>
         
           </form>
-        </div>
+        </section>
+      </main>
+
+      <Footer/>
     </div>
   )
 }
