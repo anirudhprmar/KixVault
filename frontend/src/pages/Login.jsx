@@ -4,7 +4,8 @@ import {useForm} from 'react-hook-form'
 import {useAuthStore} from '../store/useAuthStore'
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import {Eye,EyeOff,MoveRight} from 'lucide-react'
+import {Eye,EyeOff,MoveRight,LoaderCircle} from 'lucide-react'
+import toast from "react-hot-toast";
 
 function Login() {
     const navigate = useNavigate()
@@ -15,10 +16,16 @@ function Login() {
 
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = (data) => {
-   const req = login(data);
-   if (req) {
-    navigate('/')
+    const onSubmit = async(data) => {
+   try {
+    
+    const success = await login(data);
+    if (success) {
+     toast.success('Logged in successfully!');
+     navigate('/profile')
+    }
+   } catch (error) {
+     toast.error(error.message || "Something went wrong")
    }
   }
   return (
@@ -62,8 +69,13 @@ function Login() {
                 transition-all duration-300 hover:border-[#030303]'
               />
               <button
+              type="button"
               className=' absolute right-4 top-[60%]  cursor-pointer'
-              onClick={()=> setShowPassword(!showPassword)}
+              onClick={(e)=> {
+                e.preventDefault()
+                setShowPassword(!showPassword)
+              }
+            }
               >
                 {showPassword ? <EyeOff/> : <Eye/>}
               </button>

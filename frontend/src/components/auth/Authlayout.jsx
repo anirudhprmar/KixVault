@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation, Navigate } from 'react-router';
+import { Outlet } from 'react-router';
 import { useAuthStore } from '../../store/useAuthStore';
 import { LoaderCircle } from 'lucide-react';
 import AuthNavbar from '../AuthNavbar';
 
 export default function Authlayout() {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const { checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
-    checkAuth();
+    checkAuth()
   }, [checkAuth]);
 
   if (isCheckingAuth) {
@@ -21,15 +19,11 @@ export default function Authlayout() {
     );
   }
 
-  if (authUser) {
-    return <Navigate to={from} replace />;
-  }
-
   // Simplified layout that just renders the auth forms
-  return (<div>
+  return (<div >
       <AuthNavbar/>
       <main>
-        <Outlet />;
+        <Outlet />
       </main>
   </div>) 
 }

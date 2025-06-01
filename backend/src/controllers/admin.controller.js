@@ -2,23 +2,23 @@ import Product from "../models/product.model.js";
 import { productSchema } from "../types.js";
 import cloudinary from "../lib/cloudinary.js";
 
-// export const getProducts = async(req,res)=>{
-//     try {
-//         const isUserAdmin = req.user.isAdmin
-//         const products = await Product.find({isAdmin:isUserAdmin})
+export const getProducts = async(req,res)=>{
+    try {
+        const userAdmin = req.user._id
+        const products = await Product.find({userId:userAdmin})
         
-//         res.status(200).json({
-//             status:"success",
-//             products
-//         })
+        res.status(200).json({
+            status:"success",
+            products
+        })
 
-//     } catch (error) {
-//             console.log('error in get products',error);
-//         res.status(500).json({
-//             msg:"internal server error"
-//         })
-//     }
-// }
+    } catch (error) {
+            console.log('error in get products',error);
+        res.status(500).json({
+            msg:"internal server error"
+        })
+    }
+}
 
 export const addProduct = async(req,res)=>{
 

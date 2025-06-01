@@ -1,4 +1,3 @@
-import { Menu } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 
 function Navbar() {
@@ -12,22 +11,16 @@ function Navbar() {
           <div className="text-center text-2xl font-bold cursor-pointer" onClick={()=>navigate('/')}>KixVault</div>
             <ul className="flex gap-8 pt-2">
               <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
+                <Link to={'/products'}>
                 New Arrivals
+                </Link>
               </li>
-              <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
-                Men
-              </li>
-              <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
-                Women
-              </li>
+             
               <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors flex">
                 <Link to={'/login'}>
                 Login
                 </Link>
               </li>
-              {/* <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
-              <Menu/>
-              </li> */}
             </ul>
           </nav>
         </div>

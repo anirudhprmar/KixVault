@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation, Navigate } from 'react-router';
+import { Outlet} from 'react-router';
 import { useAuthStore } from '../../store/useAuthStore';
 import { LoaderCircle } from 'lucide-react';
 import AuthNavbar from '../AuthNavbar';
+import AdminSidebar from '../AdminSidebar';
 
 export default function AdminAuthlayout() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/admin";
 
   useEffect(() => {
-    checkAuth();
+    checkAuth()
   }, [checkAuth]);
 
   if (isCheckingAuth) {
@@ -21,15 +20,20 @@ export default function AdminAuthlayout() {
     );
   }
 
-  if (authUser.isAdmin) {
-    return <Navigate to={from} replace />;
-  }
+ if (authUser?.isAdmin) {
+     return (
+      <div className="min-h-screen flex flex-col">
+        <AuthNavbar />
+        <div className="flex flex-1 overflow-hidden">
+          <aside className="w-64 min-h-screen flex-shrink-0 border-r border-gray-200">
+            <AdminSidebar />
+          </aside>
+          <main className="flex-1 overflow-auto p-8">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    );
+ }
 
-  // Simplified layout that just renders the auth forms
-    return (<div>
-      <AuthNavbar/>
-      <main>
-        <Outlet />;
-      </main>
-  </div>) 
 }

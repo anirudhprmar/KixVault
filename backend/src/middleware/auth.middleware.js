@@ -4,14 +4,12 @@ import User from "../models/user.model.js";
 
 const protectRoute = async(req,res,next) =>{
   try {
+      let token = req.cookies.jwt 
       const authHeader = req.headers.authorization
   
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-          return res.status(411).json({
-              msg:"Invalid Inputs"
-          })
+      if (!token || authHeader?.startsWith('Bearer ')) {
+         token = authHeader.split(' ')[1];
       }
-      const token = req.cookies.jwt || req.headers.authorization?.split(' ')[1];
 
        if (!token) {
             return res.status(401).json({

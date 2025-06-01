@@ -1,10 +1,11 @@
 import {useEffect} from 'react'
 import { useShopStore } from '../store/useShopStore'
-import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
 import Navbar from '../components/Navbar'
+import ProductCard from '../components/ProductCard'
 
 function ProductsListPage() {
-  const {getProducts,allProducts,productsLoading} = useShopStore()
+  const {getProducts,allProducts,productsLoading,error} = useShopStore()
 
   useEffect(()=>{
       getProducts()
@@ -14,29 +15,28 @@ function ProductsListPage() {
       // show skeleton for products loading (blinking)
       <div>No products</div>
      }
-const navigate = useNavigate()
-     const handleProductClick = (product)=>{
-    navigate(`/product/${product.id}`)
+
+    if (error) {
+    return toast.error(error)
    }
   
   return (
     <div>
       <Navbar/>
-      {allProducts.map(p =>{
-       <div key={p._id} onClick={handleProductClick(p._id)}>
-              <div>
-                {p.imageUrl}
-              </div>
-              <div>
-                <p>{p.name}</p>
-                <p>{p.brand}</p>
-                <p>{p.description}</p>
-              </div>
-              <div>
-                <p>{p.price}</p>
-              </div>
-            </div>
-      })}
+       <div className="container mx-auto px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 px-10 pb-10">
+      {allProducts.map(product => (
+        <ProductCard
+          key={product._id}
+          pId={product._id}
+          name={product.name}
+          brand={product.brand}
+          price={product.price}
+          imageUrl={product.imageUrl}
+        />
+      ))}
+    </div>
+  </div>
     </div>
   )
 }

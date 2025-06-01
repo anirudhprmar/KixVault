@@ -37,10 +37,10 @@ export const useAdminStore = create((set)=>({
     // },
     productUpdating:false,
     productUpdated:false,
-    updateSpecificProduct:async (data)=>{
+    updateSpecificProduct:async (productId)=>{
         set({productUpdating:true})
         try {
-            const res = await axiosInstance.put('/admin/edit-product/:productId',data)
+            const res = await axiosInstance.put(`/admin/edit-product/${productId}`)
             set({productUpdated:res.data})
         } catch (error) {
             console.log("Error in get product:",error );
@@ -48,9 +48,9 @@ export const useAdminStore = create((set)=>({
             set({productUpdating:false})
         }
     },
-    deleteProduct: async (data) => {
+    deleteProduct: async (productId) => {
         try {
-            await axiosInstance.delete('/admin/:productId',data)
+            await axiosInstance.delete(`/admin/${productId}`)
         } catch (error) {
             console.log("Error in get product:",error );
         }

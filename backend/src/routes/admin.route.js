@@ -1,6 +1,6 @@
 import express from "express"
 import protectRoute from "../middleware/auth.middleware.js"
-import { addProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
+import {getProducts, addProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
 
 
 
@@ -9,7 +9,7 @@ const router = express.Router()
 router.use(protectRoute)
 
 // //get all products
-// router.get('/',getProducts)
+router.get('/',getProducts)
 
 //post a product
 router.post('/add-product',addProduct)
