@@ -4,12 +4,10 @@ import cloudinary from "../lib/cloudinary.js";
 
 export const getProducts = async(req,res)=>{
     try {
-        const userAdmin = req.user._id
-        const products = await Product.find({userId:userAdmin})
-        
+                
         res.status(200).json({
             status:"success",
-            products
+            products:res.paginatedResults
         })
 
     } catch (error) {
@@ -18,6 +16,22 @@ export const getProducts = async(req,res)=>{
             msg:"internal server error"
         })
     }
+}
+
+export const searchResult = async(req,res)=>{
+    const filter = req.query.filter?.toString() || ''
+    const userAdmin = req.user._id
+    const products = await Product.find({
+        userId:userAdmin,
+        $or:[
+            {name:{"$regex":filter,$options:'i'}},
+            {brand:{"$regex":filter,$options:'i'}}
+        ]
+    }).select('-__v'); // Exclude version field
+
+    res.status(200).json({
+        products
+    })
 }
 
 export const addProduct = async(req,res)=>{

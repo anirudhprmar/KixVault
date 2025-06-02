@@ -9,7 +9,7 @@ function AdminAddProduct() {
 
   const {addProduct}=useAdminStore()
 
-    const {register, handleSubmit, control,setValue} = useForm({
+    const {register, handleSubmit, control,setValue,reset} = useForm({
       defaultValues:{
         sizes:[],
         category:[] 
@@ -52,6 +52,7 @@ function AdminAddProduct() {
     const req = addProduct(data);
    if (req) {
     toast.success("Product added")
+    reset()
    }
   }
 
@@ -180,7 +181,7 @@ function AdminAddProduct() {
               </label> 
 
               <button type="button" onClick={() => appendCategory()} className="bg-green-600 rounded-md text-green-100 p-1 h-fit">
-                  Add Sizes
+                  Add Category
               </button>
               </div>
       </div>

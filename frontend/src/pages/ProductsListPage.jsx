@@ -26,14 +26,15 @@ function ProductsListPage() {
        <div className="container mx-auto px-4">
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 px-10 pb-10">
       {allProducts.map(product => (
-        <ProductCard
-          key={product._id}
+       <div key={product._id}>
+         <ProductCard
           pId={product._id}
           name={product.name}
           brand={product.brand}
           price={product.price}
           imageUrl={product.imageUrl}
         />
+       </div>
       ))}
     </div>
   </div>

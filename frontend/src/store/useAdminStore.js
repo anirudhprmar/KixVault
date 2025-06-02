@@ -5,10 +5,10 @@ import {axiosInstance} from "../lib/axios.js"
 export const useAdminStore = create((set)=>({
     productsAvailable:false,
     products:false,
-    getProducts:async (data)=>{
+    getProducts:async (page)=>{
         set({productsAvailable:true})
         try {
-            const res = await axiosInstance.get('/admin/',data)
+            const res = await axiosInstance.get(`/admin?page=${page}&limit=3`) 
             set({products:res.data.products})
         } catch (error) {
             console.log("Error in get product:",error );
@@ -51,6 +51,15 @@ export const useAdminStore = create((set)=>({
     deleteProduct: async (productId) => {
         try {
             await axiosInstance.delete(`/admin/${productId}`)
+        } catch (error) {
+            console.log("Error in get product:",error );
+        }
+    },
+    bulkedResults:false,
+    bulkResults: async(filter)=>{
+         try {
+            const res = await axiosInstance.get(`/admin/search?filter=${filter}`)
+            set({bulkedResults:res.data.products})
         } catch (error) {
             console.log("Error in get product:",error );
         }

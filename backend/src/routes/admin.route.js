@@ -1,6 +1,8 @@
 import express from "express"
 import protectRoute from "../middleware/auth.middleware.js"
-import {getProducts, addProduct,postEditProduct,deleteProduct } from "../controllers/admin.controller.js"
+import adminPaginatedResults from "../middleware/adminProducts.js"
+import {getProducts, addProduct,postEditProduct,deleteProduct,searchResult } from "../controllers/admin.controller.js"
+import Product from "../models/product.model.js"
 
 
 
@@ -9,7 +11,9 @@ const router = express.Router()
 router.use(protectRoute)
 
 // //get all products
-router.get('/',getProducts)
+router.get('/',adminPaginatedResults(Product),getProducts)
+
+router.get('/search',searchResult)
 
 //post a product
 router.post('/add-product',addProduct)

@@ -24,6 +24,8 @@ import AdminAuthlayout from './components/auth/AdminAuthlayout'
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminAddProduct from "./pages/admin/AdminAddProduct";
+import AdminEditProduct from "./pages/admin/AdminEditProduct";
+
 
 function App() {
   return (
@@ -52,6 +54,7 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/products" element={<AdminProducts/>} />
             <Route path="/admin/add-product" element={<AdminAddProduct/>} />
+            <Route path="/admin/edit-product/:productId" element={<AdminEditProduct/>} />
           </Route>
         </Routes>
 
