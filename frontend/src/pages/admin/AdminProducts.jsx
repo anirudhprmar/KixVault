@@ -49,7 +49,7 @@ if (productsAvailable) {
       <span className="absolute right-[78%] top-8"><Search/></span>
       
         {searchResults ? searchResults.map(p =>(
-          <div key={p._id}>
+          <div key={p._id} className={!filter ? 'hidden' : 'block'}>
           <AdminProductCard 
             pId={p._id}
             name={p.name}

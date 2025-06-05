@@ -3,6 +3,7 @@ import { useShopStore } from '../store/useShopStore'
 import { useParams, useNavigate } from 'react-router'
 import Navbar from '../components/Navbar'
 
+
 function ProductDetailPage() {
   const { getProduct, viewingProduct } = useShopStore()
   const { productId } = useParams()
@@ -39,7 +40,8 @@ function ProductDetailPage() {
   return (
 
     <div>
-      <Navbar/>
+    <Navbar/>
+
     <main className="container mx-auto px-4 py-8 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-5">
         <div className="aspect-square overflow-hidden rounded-lg">

@@ -1,7 +1,7 @@
 import express from "express"
 import protectRoute from "../middleware/auth.middleware.js"
 import adminPaginatedResults from "../middleware/adminProducts.js"
-import {getProducts, addProduct,postEditProduct,deleteProduct,searchResult } from "../controllers/admin.controller.js"
+import {getProducts, addProduct,postEditProduct,deleteProduct,searchResult,getEditProduct } from "../controllers/admin.controller.js"
 import Product from "../models/product.model.js"
 
 
@@ -19,7 +19,7 @@ router.get('/search',searchResult)
 router.post('/add-product',addProduct)
 
 // get a specific product
-// router.get('/edit-product/:productId',getEditProduct)
+router.get('/edit-product/:productId',getEditProduct)
 
 //update or edit a specific product
 router.put('/edit-product/:productId',postEditProduct)

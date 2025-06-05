@@ -47,7 +47,7 @@ function AdminAddProduct() {
   const [selectedImg,setSelectedImg] = useState(null)
 
   const onSubmit = (data)=>{
-    console.log(data);
+    // console.log(data);
     
     const req = addProduct(data);
    if (req) {

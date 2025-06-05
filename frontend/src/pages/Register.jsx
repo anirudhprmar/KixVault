@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { useState } from "react"
 import Footer from "../components/Footer"
 import {Eye,EyeOff,MoveRight} from 'lucide-react'
-import Navbar from "../components/Navbar"
+import Navbar from '../components/Navbar'
 
 function Register() {
 const navigate = useNavigate()
@@ -15,15 +15,15 @@ const navigate = useNavigate()
   const onSubmit = (data)=>{
     const req = signup(data);
    if (req) {
-    navigate('/')
+    navigate('/profile')
    }
   }
 
 
   return (
     <div>
-
       <Navbar/>
+
      <main>
       <section>
         <div className="text-center text-3xl pt-10 font-bold">Register</div>

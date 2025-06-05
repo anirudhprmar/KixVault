@@ -1,17 +1,26 @@
 import { useAuthStore } from "../../store/useAuthStore"
+// import { useShopStore } from "../../store/useShopStore"
 
 function Profile() {
   const {authUser} = useAuthStore()
+  // const {getOrders,userPlacedOrders} = useShopStore()
+  
 
   return (
     <div  >
-      {/* a few user details */}
-      {/* my orders option */}
-      {/* cart  */}
-      {/* wishlist */}
-      <div className="bg-green-900 text-4xl text-gray-50 text-center">
-        hi there {authUser.username}
+      <div>
+        {/* big profile pic */}
+        <p className="text-2xl">Welcome! {authUser?.username}</p>
+        <p className="border border-gray-900 w-fit p-1">{authUser?.email}</p>
       </div>
+      {/* my orders: all the orders of user  */}
+      <div>
+        {/* {console.log(userPlacedOrders)} */}
+        {/*  */}
+        {/* {userPlacedOrders}  */}
+      </div>
+      {/* cart: just like sidebar but on the right and check out will be option in cart sidebar  */} 
+      {/* wishlist : different page*/} 
     </div>
   )
 }

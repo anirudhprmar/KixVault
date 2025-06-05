@@ -83,39 +83,8 @@ export const addProduct = async(req,res)=>{
     }
 }
 
-// export const getEditProduct = async(req,res)=>{
-//     try {
-//         const {productId} = req.params;
-//         const existingProduct = await Product.findById(productId)
-//         if (!existingProduct) {
-//             return res.status(411).json({
-//                 msg:"product doesn't exists"
-//             })
-//         }
-
-//         res.status(200).json({
-//             status:"success",
-//             product:existingProduct
-//         })
-
-//     } catch (error) {
-//          console.log('error in get specific product',error);
-//         res.status(501).json({msg:"Internal server error"})
-//     }
-// }
-
-export const postEditProduct = async(req,res)=>{
+export const getEditProduct = async(req,res)=>{
     try {
-
-        // const updatedTitle = req.body.title || ""
-        // const updatedPrice = req.body.price || "";
-        // const updatedImg = req.body.image || "";
-        // const updatedDesc = req.body.description || "";
-        // const updateStock = req.body.stock || "";
-        // const updateCategory = req.body.category || "";
-
-        const {updatedValues} = req.body;
-
         const {productId} = req.params;
         const existingProduct = await Product.findById(productId)
         if (!existingProduct) {
@@ -124,26 +93,9 @@ export const postEditProduct = async(req,res)=>{
             })
         }
 
-        // await Product.updateOne({
-        //     title:updatedTitle,
-        //     description:updatedDesc,
-        //     imageUrl:updatedImg,
-        //     price:updatedPrice,
-        //     stock:updateStock,
-        //     category:updateCategory
-        // })
-
-        const updatedProduct = await Product.updateOne({
-            _id:productId
-        },{
-            updatedValues
-        })
-
-        
-
         res.status(200).json({
             status:"success",
-            product:updatedProduct
+            product:existingProduct
         })
 
     } catch (error) {
@@ -151,6 +103,47 @@ export const postEditProduct = async(req,res)=>{
         res.status(501).json({msg:"Internal server error"})
     }
 }
+
+export const postEditProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+   const {updates} = req.body
+
+   let imageUrl;
+   if (updates.imageUrl) {
+    const uploadRes = await cloudinary.uploader.upload(updates.imageUrl,{
+        folder:'products',
+        resource_type:'auto'
+    });
+    imageUrl = uploadRes.secure_url;
+   }
+
+   //properly thought about the product model and which key values needs to be uploaded for it to function , in this case that key value was imageUrl which has to uploaded to cloudinary 
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { 
+        ...updates,
+        ...(imageUrl && {imageUrl}) // Only include if new image was uploaded
+    },
+      {new:true}
+    );
+
+    if (!updatedProduct) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({
+      status: "product updated",
+      product: updatedProduct,
+    });
+
+  } catch (error) {
+    console.error("Error in postEditProduct:", error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
 
 export const deleteProduct = async(req,res)=>{
 

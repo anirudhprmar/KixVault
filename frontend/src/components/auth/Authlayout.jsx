@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router';
 import { useAuthStore } from '../../store/useAuthStore';
 import { LoaderCircle } from 'lucide-react';
-import AuthNavbar from '../AuthNavbar';
+import Navbar from '../Navbar'
 
 export default function Authlayout() {
   const { checkAuth, isCheckingAuth } = useAuthStore();
@@ -20,8 +20,9 @@ export default function Authlayout() {
   }
 
   // Simplified layout that just renders the auth forms
+ 
   return (<div >
-      <AuthNavbar/>
+      <Navbar/>
       <main>
         <Outlet />
       </main>

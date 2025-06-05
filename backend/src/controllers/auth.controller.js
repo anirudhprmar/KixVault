@@ -36,13 +36,12 @@ export const signup = async(req,res)=>{
         return res.status(200).json({
             msg:"success",
             token,
-            data:{
-                user:{
-                    id:newUser._id,
-                    username:newUser.username,
-                    email:newUser.email
-                }
+            user:{
+                id:newUser._id,
+                username:newUser.username,
+                email:newUser.email
             }
+
         })
     } catch (error) {
         console.log("error in sign up",error);
@@ -52,38 +51,59 @@ export const signup = async(req,res)=>{
     }
 }
 
-export const login = async (req,res) => {
-   try {
-     const validatedData = loginSchema.safeParse(req.body)
- 
-     const existingUser = await User.findOne({email:validatedData.data.email})
-     if (!existingUser) {
-         return res.status(411).json({
-             msg:"User does not exist"
-         })
-     }
- 
-     if(!(await bcrypt.compare(validatedData.data.password,existingUser.password))){
-         return res.status(401).json({
-         status: 'fail',
-         message: 'Invalid credentials'
-         });
-     }
- 
-     const token = generateToken(existingUser._id,res);
+export const login = async (req, res) => {
+  try {
+    const validatedData = loginSchema.safeParse(req.body)
+    if (!validatedData.success) {
+      return res.status(400).json({ msg: "Invalid credentials" })
+    }
 
-     res.status(200).json({
-         status: 'success',
-         token
-       });
+    const user = await User.findOne({ email: validatedData.data.email })
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" })
+    }
 
-   } catch (error) {
+    const isMatch = await bcrypt.compare(validatedData.data.password, user.password)
+    if (!isMatch) {
+      return res.status(401).json({ msg: "Invalid credentials" })
+    }
 
-        console.log("Error in login controller", error.message);
-        res.status(500).json({message:"Internal Server Error"})
-   }
-    
+    const token = generateToken(user._id, res)
+
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        cart: user.cart,
+        wishlist: user.wishlist
+      }
+    })
+  } catch (error) {
+    console.error("Login error:", error)
+    res.status(500).json({ msg: "Internal server error" })
+  }
 }
+
+export const checkAuth = async (req, res) => {
+  try {
+    // User is already attached by middleware
+    const user = req.user
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      cart: user.cart,
+      wishlist: user.wishlist
+    })
+  } catch (error) {
+    console.error("Check auth error:", error)
+    res.status(500).json({ msg: "Internal server error" })
+  }
+}
+
 export const logout = async (req,res) => {
    try {
     res.clearCookie('jwt')
@@ -97,14 +117,7 @@ export const logout = async (req,res) => {
    } 
 }
 
-export const checkAuth = (req,res)=>{
-  try {
-    res.status(200).json(req.user)
-  } catch (error) {
-    console.log('Error in checkAuth controller:',error.message);
-    res.status(500).json({message:"Internal server error"})
-  }
-}
+
 
 export const deleteProfile = async (req,res) => {
     try {

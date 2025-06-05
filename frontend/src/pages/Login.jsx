@@ -2,10 +2,10 @@ import { useState } from "react"
 import { useNavigate, Link } from 'react-router';
 import {useForm} from 'react-hook-form'
 import {useAuthStore} from '../store/useAuthStore'
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import {Eye,EyeOff,MoveRight,LoaderCircle} from 'lucide-react'
 import toast from "react-hot-toast";
+import Navbar from "../components/Navbar";
 
 function Login() {
     const navigate = useNavigate()
@@ -14,7 +14,7 @@ function Login() {
   
   const {login,isLoggingIn} = useAuthStore()
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm()
 
     const onSubmit = async(data) => {
    try {
