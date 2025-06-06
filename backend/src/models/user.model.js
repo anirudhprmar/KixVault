@@ -50,6 +50,27 @@ const userSchema = new mongoose.Schema({
 },{timestamps:true}
 )
 
+userSchema.methods.addToWishlist = function(productId) {
+  const isAlreadyWishlisted = this.wishlist.items.some(item =>
+    item.product.toString() === productId.toString()
+  );
+
+  if (!isAlreadyWishlisted) {
+    this.wishlist.items.push({ product: productId });
+  }
+
+  return this.save();
+};
+
+userSchema.methods.removeFromWishlist = function(productId) {
+  this.wishlist.items = this.wishlist.items.filter(item =>
+    item.product.toString() !== productId.toString()
+  );
+
+  return this.save();
+};
+
+
 userSchema.methods.addToCart = function(product) {
   const cartProductIndex = this.cart.items.findIndex(cp => {
     return cp.productId.toString() === product._id.toString();

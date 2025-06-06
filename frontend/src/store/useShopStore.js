@@ -25,7 +25,8 @@ export const useShopStore = create((set)=>({
     getProduct:async (productId) => {
         try {
             const res = await axiosInstance.get(`/shop/products/${productId}`)
-           set({viewingProduct:res.data.product})
+           set({viewingProduct:res.data.product}) // unnecassary state , you can just return the values 
+           return res.data.product
         } catch (error) {
             console.log("error in get product",error);
         }
@@ -40,9 +41,9 @@ export const useShopStore = create((set)=>({
         }
     },
     addedTocart:false,
-    addToCart:async (data) => {
+    addToCart:async (productId) => {
         try {
-            await axiosInstance.post('/shop/cart/:productId',data)
+            await axiosInstance.post(`/shop/cart/${productId}`)
             set({addedTocart:true})
         } catch (error) {
             console.log("error in get cart",error);
@@ -51,9 +52,9 @@ export const useShopStore = create((set)=>({
         }
     },
     removedFromCart:false,
-    removeFromCart:async (data) => {
+    removeFromCart:async (productId) => {
         try {
-            await axiosInstance.put('/shop/cart-delete-item/:productId',data)
+            await axiosInstance.put(`/shop/cart-delete-item/${productId}`)
             set({removedFromCart:true})
         } catch (error) {
             console.log("erro in remove from cart",error);
@@ -88,18 +89,28 @@ export const useShopStore = create((set)=>({
         console.log("error in place order",error);
     }    
     },
-    wishlist:false,
-    addToWishlist:async(data)=>{
+    itemId:false,
+    allWishlists: async () => {
         try {
-            const res = await axiosInstance.post('/admin/add-item-wishlist/:productId',data)
+           const res = await axiosInstance.get('/shop/wishlist/') // array of item ids
+            set({itemId:res.data})
+        } catch (error) {
+            console.log("error in all wishlists",error);
+            
+        }        
+    },
+    wishlist:false,
+    addToWishlist:async(productId)=>{
+        try {
+            const res = await axiosInstance.post(`/shop/add-item-wishlist/${productId}`)
             set({wishlist:res.data.item})
         } catch (error) {
             console.log("error in add to wishlist",error);
          }    
     },
-    removeFromWishlist:async () => {
+    removeFromWishlist:async (productId) => {
         try {
-            await axiosInstance.delete('/admin/wishlist/:productId')
+            await axiosInstance.delete(`/shop/wishlist/${productId}`)
         } catch (error) {
          console.log("error in remove from wishlist",error);
         }    
@@ -107,7 +118,7 @@ export const useShopStore = create((set)=>({
     reviews:false,
     addReview:async (data) => {
        try {
-         const res = await axiosInstance.post('/admin/review/:productId',data)
+         const res = await axiosInstance.post('/shop/review/:productId',data)
          set({reviews:res.data.review})
        } catch (error) {
         console.log("error in add review",error);
@@ -115,7 +126,7 @@ export const useShopStore = create((set)=>({
     },
     deleteReview:async () => {
         try {
-            await axiosInstance.delete('/admin/review/:productId')
+            await axiosInstance.delete('/shop/review/:productId')
         } catch (error) {
             console.log("error in delete review",error);
             

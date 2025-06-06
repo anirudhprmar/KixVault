@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useShopStore } from '../store/useShopStore'
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate, Link } from 'react-router'
 import Navbar from '../components/Navbar'
+import toast from 'react-hot-toast'
 
 
 function ProductDetailPage() {
-  const { getProduct, viewingProduct } = useShopStore()
+  const { getProduct,addToWishlist,addToCart } = useShopStore()
   const { productId } = useParams()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
-
+const [viewingProduct,setViewingProduct] = useState(null)
+  
   useEffect(() => {
     // Debug log to check productId
-    console.log('Product ID from params:', productId)
+    // console.log('Product ID from params:', productId)
 
     async function fetchProduct() {
       if (!productId) {
@@ -22,7 +24,8 @@ function ProductDetailPage() {
       }
 
       try {
-        await getProduct(productId)
+        const res = await getProduct(productId)
+        setViewingProduct(res)
       } catch (error) {
         console.error('Error fetching product:', error)
       } finally {
@@ -33,12 +36,32 @@ function ProductDetailPage() {
     fetchProduct()
   }, [productId, getProduct, navigate])
 
+  
   if (loading || !viewingProduct) {
     return <div>Loading...</div>
   }
-
+  const handleAddToWishlist = async()=>{
+    const res = await addToWishlist(productId)
+    console.log(res);
+    
+    if (res) {
+      // toast.success("Check your wishlist!!")
+      toast.success("Item add to Wishlist")
+    }
+  }
+  
+  const handleAddToCart = async()=>{
+    const res = await addToCart(productId)
+    console.log(res);
+    
+    if (res) {
+      // toast.success("Check your cart!!")
+      toast.success("Item add to cart")
+    }
+  }
+  
   return (
-
+    
     <div>
     <Navbar/>
 
@@ -56,6 +79,7 @@ function ProductDetailPage() {
           <h2 className="text-3xl font-bold">{viewingProduct.name}</h2>
           <p className="text-xl text-gray-600">{viewingProduct.brand}</p>
           <p className="text-gray-700">{viewingProduct.description}</p>
+          <p className="text-gray-700 text-2xl font-bold">${viewingProduct.price.toFixed(2)}</p>
 
           <div className="space-y-4">
             <p className="font-semibold">Sizes:</p>
@@ -82,10 +106,10 @@ function ProductDetailPage() {
           </div>
 
           <div className="flex gap-4">
-            <button className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 cursor-pointer">
+            <button className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 cursor-pointer" onClick={handleAddToCart}>
               Add to Cart
             </button>
-            <button className="px-6 py-3 border border-black rounded-lg hover:bg-gray-50 cursor-pointer">
+            <button className="px-6 py-3 border border-black rounded-lg hover:bg-gray-50 cursor-pointer" onClick={handleAddToWishlist}>
               Add to Wishlist
             </button>
           </div>

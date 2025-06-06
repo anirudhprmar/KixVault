@@ -65,7 +65,7 @@ export const postCart = async(req,res)=>{
         })
       }
 
-      req.user.addToCart(product)
+      await req.user.addToCart(product)
 
        
         res.status(200).json({
@@ -167,6 +167,34 @@ export const getOrders = async (req,res) => {
   }
 }
 
+export const getWishlist = async (req,res) => {
+  try {
+    const user = req.user
+    const products = []
+
+    if (user.wishlist.items.length > 0) {
+      user.wishlist.items.map(async(p) => {
+        products.push(p.product)
+        
+      })
+      
+    }else{
+      res.status(411).json({
+        msg:"No items in wishlist"
+      })
+    }
+    
+    res.status(200).json({
+      wishlist:products
+    });
+
+
+  } catch (error) {
+    console.log('error in post wishlist', error);
+    res.status(500).json({msg:"Internal server error"})
+  }
+}
+
 export const postWishlist = async (req,res) => {
   try {
     const {productId} =req.params
@@ -179,17 +207,12 @@ export const postWishlist = async (req,res) => {
         })
       }
   
-      const itemAddedToWishlist = await User.updateOne({
-        _id:user._id
-      },{
-        wishlist:{
-          items:[product]
-        }
-      })
+     const itemAddedToWishlist = await user.addToWishlist(product._id)
+    //  const itemAddedToWishlist = await user.addToWishlist(product)
 
       res.status(200).json({
         msg:"Item added to wishlist",
-        item:itemAddedToWishlist
+        items:itemAddedToWishlist
       })
   } catch (error) {
     console.log('error in post wishlist', error);
@@ -210,17 +233,10 @@ export const putWishlist = async (req,res) => {
         })
       }
   
-      const itemRemovedToWishlist = await User.findByIdAndDelete({
-        _id:user._id
-      },{
-        wishlist:{
-          items:[product]
-        }
-      })
+      await user.removeFromWishlist(product._id)
 
       res.status(200).json({
-        msg:"Item added to wishlist",
-        item:itemRemovedToWishlist
+        msg:"Item removed from wishlist"
       })
   } catch (error) {
     console.log('error in put wishlist', error);
