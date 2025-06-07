@@ -1,10 +1,9 @@
 import { useShopStore } from "../../store/useShopStore"
 import { useEffect, useState } from "react"
-//  import toast from "react-hot-toast"
 
 
 function Wishlist() {
- const{getProduct,allWishlists,itemId}= useShopStore()
+ const{getProduct,allWishlists,itemId,removeFromWishlist,addToCart}= useShopStore()
  const [products,setProducts] = useState([])
    const [isLoading, setIsLoading] = useState(true)
 
@@ -47,14 +46,15 @@ function Wishlist() {
     )
   }
 
-console.log('products',products);
+// console.log('products',products);
 
-// const handleRemoveItem =async(id)=>{
-//   const res = await removeFromWishlist(id)
-//   if (res) {
-//       toast.success('item removed')
-//     }
-//   }
+const handleRemoveItem =async(id)=>{
+  await removeFromWishlist(id)
+  }
+
+ const handleAddToCart = async(id)=>{
+    await addToCart(id)
+  }
    
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -78,14 +78,16 @@ console.log('products',products);
               <h3 className="font-semibold text-lg">{product.name}</h3>
               <p className="text-gray-600">${product.price}</p>
               <div className="mt-4 flex gap-2">
-                <button className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800">
+                <button className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800"
+                onClick={()=>handleAddToCart(product._id)}
+                >
                   Add to Cart
                 </button>
-                {/* <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                onClick={handleRemoveItem(product._id)}
+                <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={()=> handleRemoveItem(product._id)}
                 >
                   Remove
-                </button> */}
+                </button>
               </div>
             </div>
           ))}

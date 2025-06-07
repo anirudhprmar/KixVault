@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useShopStore } from '../store/useShopStore'
 import { useParams, useNavigate, Link } from 'react-router'
 import Navbar from '../components/Navbar'
-import toast from 'react-hot-toast'
+import { useAuthStore } from '../store/useAuthStore'
 
 
 function ProductDetailPage() {
@@ -11,6 +11,7 @@ function ProductDetailPage() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
 const [viewingProduct,setViewingProduct] = useState(null)
+const {authUser} = useAuthStore()
   
   useEffect(() => {
     // Debug log to check productId
@@ -40,24 +41,13 @@ const [viewingProduct,setViewingProduct] = useState(null)
   if (loading || !viewingProduct) {
     return <div>Loading...</div>
   }
-  const handleAddToWishlist = async()=>{
-    const res = await addToWishlist(productId)
-    console.log(res);
-    
-    if (res) {
-      // toast.success("Check your wishlist!!")
-      toast.success("Item add to Wishlist")
-    }
+  const handleAddToWishlist = async(id)=>{
+    await addToWishlist(id)
   }
   
-  const handleAddToCart = async()=>{
-    const res = await addToCart(productId)
-    console.log(res);
-    
-    if (res) {
-      // toast.success("Check your cart!!")
-      toast.success("Item add to cart")
-    }
+  const handleAddToCart = async(id)=>{
+    await addToCart(id)
+
   }
   
   return (
@@ -106,10 +96,12 @@ const [viewingProduct,setViewingProduct] = useState(null)
           </div>
 
           <div className="flex gap-4">
-            <button className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 cursor-pointer" onClick={handleAddToCart}>
+            <button className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 cursor-pointer" onClick={!authUser ? ()=> navigate('/login') :()=> handleAddToCart(viewingProduct._id)}
+            >
               Add to Cart
             </button>
-            <button className="px-6 py-3 border border-black rounded-lg hover:bg-gray-50 cursor-pointer" onClick={handleAddToWishlist}>
+            <button className="px-6 py-3 border border-black rounded-lg hover:bg-gray-50 cursor-pointer" onClick={!authUser ? ()=> navigate('/login') : ()=>handleAddToWishlist(viewingProduct._id)}
+            >
               Add to Wishlist
             </button>
           </div>

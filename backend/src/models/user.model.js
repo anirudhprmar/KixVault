@@ -66,7 +66,8 @@ userSchema.methods.removeFromWishlist = function(productId) {
   this.wishlist.items = this.wishlist.items.filter(item =>
     item.product.toString() !== productId.toString()
   );
-
+  console.log(this.wishlist.items);
+  
   return this.save();
 };
 
@@ -95,12 +96,13 @@ userSchema.methods.addToCart = function(product) {
 };
 
 userSchema.methods.removeFromCart = function(productId) {
-  const updatedCartItems = this.cart.items.filter(item => {
-    return item.productId.toString() !== productId.toString();
+  this.cart.items = this.cart.items.filter(item => {
+     item.productId.toString() !== productId.toString();
   });
-  this.cart.items = updatedCartItems;
+   
   return this.save();
 };
+
 
 userSchema.methods.clearCart = function() {
   this.cart = { items: [] };

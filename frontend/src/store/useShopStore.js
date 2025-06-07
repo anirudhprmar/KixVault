@@ -32,30 +32,30 @@ export const useShopStore = create((set)=>({
         }
     },
     userCart:false,
-    getCart:async (data) => {
+    getCart:async () => {
         try {
-            const res = await axiosInstance.get('/shop/cart',data)
-            set({userCart:res.data.cart})
+            const res = await axiosInstance.get('/shop/cart')
+            set({userCart:res.data})
         } catch (error) {
             console.log("error in get cart",error);
         }
     },
-    addedTocart:false,
+    // addedTocart:false,
     addToCart:async (productId) => {
         try {
             await axiosInstance.post(`/shop/cart/${productId}`)
-            set({addedTocart:true})
+            // set({addedTocart:true})
         } catch (error) {
             console.log("error in get cart",error);
         }finally{
             set({addedTocart:false})
         }
     },
-    removedFromCart:false,
+    // removedFromCart:false,
     removeFromCart:async (productId) => {
         try {
-            await axiosInstance.put(`/shop/cart-delete-item/${productId}`)
-            set({removedFromCart:true})
+            await axiosInstance.delete(`/shop/cart-delete-item/${productId}`)
+            // set({removedFromCart:true})
         } catch (error) {
             console.log("erro in remove from cart",error);
         }finally{

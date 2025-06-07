@@ -72,9 +72,13 @@ const navigate = useNavigate()
               />
               <button
               className=' absolute right-4 top-1/2 cursor-pointer'
-              onClick={()=> setShowPassword(!showPassword)}
+              onClick={(e)=>  {
+                e.preventDefault()
+                setShowPassword(!showPassword)
+              }}
               > 
-                {showPassword ? <EyeOff/> : <Eye/>}</button>
+                {showPassword ? <EyeOff/> : <Eye/>}
+              </button>
             </div>
 
 

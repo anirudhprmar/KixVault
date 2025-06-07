@@ -42,10 +42,24 @@ export const getCart = async(req,res)=>{
     try {
       
       const user = req.user
-      
-        res.status(200).json({
-            cart:user.cart.items.productId // this is can be error
+       const products = []
+
+      if (user.cart.items.length > 0) {
+        user.cart.items.map((p) => {
+          products.push(p.productId)
+          
         })
+        
+      }else{
+        res.status(411).json({
+          msg:"No items in cart"
+        })
+      }
+      
+      
+      res.status(200).json({
+      cart:products
+      });
 
     } catch (error) {
           console.log('error in get cart', error);
@@ -81,6 +95,7 @@ export const postCart = async(req,res)=>{
 export const putCartDeleteProduct = async(req,res)=>{
   try {
     const {productId} =req.params
+    const user = req.user
 
     const product = await Product.findById(productId)
     if (!product) {
@@ -89,7 +104,7 @@ export const putCartDeleteProduct = async(req,res)=>{
       })
     }
 
-    req.user.removeFromCart(productId)
+    await user.removeFromCart(product._id)
 
     res.status(200).json({
       msg:"Item removed from the cart"
@@ -173,7 +188,7 @@ export const getWishlist = async (req,res) => {
     const products = []
 
     if (user.wishlist.items.length > 0) {
-      user.wishlist.items.map(async(p) => {
+      user.wishlist.items.map((p) => {
         products.push(p.product)
         
       })
