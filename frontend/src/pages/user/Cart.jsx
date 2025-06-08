@@ -4,7 +4,7 @@ import { useNavigate } from "react-router"
 
 
 function Cart() {
- const{getProduct,getCart,userCart,removeFromCart,checkout}= useShopStore()
+ const{getProduct,getCart,userCart,removeFromCart}= useShopStore()
  const [products,setProducts] = useState([])
    const [isLoading, setIsLoading] = useState(true)
 const navigate = useNavigate()
@@ -47,16 +47,14 @@ const navigate = useNavigate()
     )
   }
 
-console.log('products',products);
 
 const handleRemoveItem =async(id)=>{
   await removeFromCart(id)
 }
-const handleCheckout =async(id)=>{
-  const res = await checkout(id)
-  if (res) {
+const handleCheckout =()=>{
+
     navigate('/checkout')
-  }
+  
 }
    
   return (
@@ -81,13 +79,13 @@ const handleCheckout =async(id)=>{
               <h3 className="font-semibold text-lg">{product.name}</h3>
               <p className="text-gray-600">${product.price}</p>
               <div className="mt-4 flex gap-2">
-                <button className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800"
+                <button className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800 cursor-pointer"
                 onClick={()=>handleCheckout(product._id)}
                 >
                   Checkout
                 </button>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                onClick={()=> handleRemoveItem(product._id)}
+                <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
+                onClick={handleRemoveItem}
                 >
                   Remove
                 </button>

@@ -20,6 +20,7 @@ router.post('/cart/:productId', protectRoute, postCart);
 router.delete('/cart-delete-item/:productId', protectRoute, putCartDeleteProduct);
 
 router.get('/checkout', protectRoute, getCheckout);
+// router.delete('/checkout/:productId',protectRoute,deleteCheckout)
 
 router.post('/orders', protectRoute, postOrder);
 router.get('/orders', protectRoute, getOrders);

@@ -3,8 +3,9 @@ import mongoose, { Schema } from "mongoose";
 const orderSchema = new mongoose.Schema({
     products:[
         {
-        product:{type:Object,required:true},
-        quantity:{type:Number,required:true}
+        product:{type:String,required:true},
+        quantity:{type:Number,required:true},
+        price:{type:Number}
         }
     ],
     user:{
@@ -18,6 +19,9 @@ const orderSchema = new mongoose.Schema({
             ref:'User'
         },
 
+    },
+    total:{
+        type:Number
     }
 })
 

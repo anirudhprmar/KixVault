@@ -171,11 +171,11 @@ export const postOrder = async(req,res)=>{
    let totalSum = 0
 
    products.forEach(item =>{
-    totalSum += item.quantity * item.productId.price;   
+    totalSum += item.quantity * item.price;   
   })
 
   const allProducts = products.map(i => {
-    return {quantity:i.quantity,product:{...i.productId}}
+    return {quantity:i.quantity,product:i.productId,price:i.price}
   })
 
   const order = await Order.create({
@@ -183,7 +183,8 @@ export const postOrder = async(req,res)=>{
       email:req.user.email,
       userId: user._id
     },
-    products:allProducts
+    products:allProducts,
+    total:totalSum
   })
 
   res.status(200).json({
@@ -197,9 +198,10 @@ export const postOrder = async(req,res)=>{
   }
 }
 
-export const getOrders = async (req,res) => {
+export const getOrders = async (req,res) => { // in profile
   try {
-    const orders = await Order.find({user:{userId:req.user._id}})
+    const user = req.user
+    const orders = await Order.findOne({"user.userId":user._id})
 
     res.status(200).json({
       orders:orders

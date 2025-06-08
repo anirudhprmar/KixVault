@@ -74,7 +74,7 @@ export const useShopStore = create((set)=>({
     userOrder:false,
     placeOrder:async () => {
         try {
-            const res = await axiosInstance.post('/shop/order')
+            const res = await axiosInstance.post('/shop/orders')
             set({userOrder:res.data.order})
         } catch (error) {
             console.log("error in place order",error);
@@ -83,7 +83,7 @@ export const useShopStore = create((set)=>({
     userPlacedOrders:false,
     getOrders:async () => {
     try {
-        const res = await axiosInstance.post('/shop/orders')
+        const res = await axiosInstance.get('/shop/orders')
         set({userPlacedOrders:res.data.orders})
     } catch (error) {
         console.log("error in place order",error);
