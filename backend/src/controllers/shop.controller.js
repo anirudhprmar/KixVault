@@ -2,6 +2,7 @@ import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
 import Review from "../models/review.model.js";
 import User from "../models/user.model.js";
+import mongoose from "mongoose";
 
 export const getProducts = async (req,res) => {
  try {
@@ -120,13 +121,40 @@ export const getCheckout = async(req,res)=>{
   try {
     const user = req.user
     const products = user.cart.items;
+    if (products.length <= 0) {
+      return res.status(411).json({
+        msg:"cart is empty"
+      })
+    }
+    
+
+    async function updatePrice() {
+      for (const product of products) {
+        const item = await Product.findById(product.productId)
+
+      const result =  await User.updateOne(
+          {"cart.items.productId": new mongoose.Types.ObjectId(`${product.productId}`)},
+          {$set:{"cart.items.$.price":item.price}},
+        ) 
+       
+      }
+    }
+
+      await updatePrice()
+
+   
+    const updatedUser = await User.findById(user._id)
+    const updatedProducts = updatedUser.cart.items
+
+
+     
     let total = 0 ;
-    products.forEach(item =>{
-      total += item.quantity * item.productId.price
+    updatedProducts.forEach((item) =>{
+      total += item.quantity * item.price
     })
 
     res.status(200).json({
-      products:products,
+      products:updatedProducts,
       totalSum: total
     })
 

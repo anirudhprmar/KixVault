@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema({
                 quantity:{
                     type:Number,
                     required:true
+                },
+                price:{
+                  type:Number
                 }
             }
         ]
@@ -85,7 +88,8 @@ userSchema.methods.addToCart = function(product) {
   } else {
     updatedCartItems.push({
       productId: product._id,
-      quantity: newQuantity
+      quantity: newQuantity,
+      price:product.price
     });
   }
   const updatedCart = {
