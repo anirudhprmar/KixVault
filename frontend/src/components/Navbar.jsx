@@ -40,8 +40,8 @@ function Navbar() {
               KixVault
             </div>
 
-            <ul className="flex gap-8 pt-2 items-center">
-              <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
+            <ul className="flex gap-2 md:gap-8 pt-2 items-center">
+              <li className="text-lg font-medium cursor-pointer hover:text-gray-600 transition-colors ">
                 <Link to="/products">New Arrivals</Link>
               </li>
 
@@ -104,7 +104,7 @@ function Navbar() {
                   )}
                 </div>
               ) : (
-                <li className="text-lg font-light cursor-pointer hover:text-gray-600 transition-colors">
+                <li className="text-lg font-medium cursor-pointer hover:text-gray-600 transition-colors">
                   <Link to="/login">Login</Link>
                 </li>
               )}

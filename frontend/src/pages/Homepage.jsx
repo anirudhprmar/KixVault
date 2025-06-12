@@ -17,7 +17,7 @@ function Homepage() {
       src='../video/vid1.mp4'
        width='1540'
        muted
-      //  autoPlay
+       autoPlay
       //  loop
       />
       </section> 
@@ -36,11 +36,6 @@ function Homepage() {
           <span className='hover:animate-spin'><ArrowRightCircleIcon/></span>
           </Link>
         </div>
-      </section>
-
-      <section>
-        {/* CTA */}
-        {/* gotta do it */}
       </section>
 
       </main>

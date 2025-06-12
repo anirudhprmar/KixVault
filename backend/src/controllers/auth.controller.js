@@ -8,10 +8,18 @@ export const signup = async(req,res)=>{
     try {
         const validatedData = signupSchema.safeParse(req.body);
     
-        if (!validatedData.success) {
-            return res.status(411).json({
-                msg:"invalid inputs"
-            })
+          if (!validatedData.success) {
+            // Get the formatted error messages from Zod
+            const errorMessages = validatedData.error.issues.map(issue => ({
+                field: issue.path[0],
+                message: issue.message
+            }));
+
+            return res.status(400).json({
+                status: "error",
+                msg: "Validation failed",
+                errors: errorMessages
+            });
         }
     
         const userExists = await User.findOne({email:validatedData.data.email})

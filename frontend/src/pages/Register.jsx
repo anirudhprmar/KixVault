@@ -30,7 +30,7 @@ const navigate = useNavigate()
       </section>
       <section>
           <form onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col py-40 gap-3 justify-center items-center'
+          className='flex flex-col py-10 md:py-40 gap-3 justify-center items-center'
           >
             <div className='flex flex-col gap-1 xl:w-xl'>
               <label htmlFor="username">Username</label>
@@ -84,13 +84,13 @@ const navigate = useNavigate()
 
             <button type="submit" disabled={isSigningUp}>
               {isSigningUp ?  <LoaderCircle size={4} className=' animate-spin'/> : <div className='w-full bg-[#030303] rounded-xl py-2 mt-3 xl:w-xl cursor-pointer'>
-                <span className='flex gap-3 text-2xl items-center justify-center text-white '>Sign up <MoveRight/> </span>
+                <span className='flex gap-3 p-1 text-xl md:text-2xl items-center justify-center text-white '>Sign up <MoveRight/> </span>
               </div>}
             </button>
 
             <div className='flex gap-2 justify-between xl:w-xl'>
               <p>Already have an account?</p>
-              <Link to={'/login'} className='text-[#030303]'>Login Here</Link>
+              <Link to={'/login'} className='text-[#030303] underline'>Login Here</Link>
             </div>
           </form>
       </section>

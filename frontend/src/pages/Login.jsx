@@ -41,7 +41,7 @@ function Login() {
         
         <section>
           <form onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col gap-3 py-40  justify-center items-center'
+          className='flex flex-col gap-3 py-10 md:py-40  justify-center items-center'
           >
             <div className='flex flex-col  gap-1 xl:w-xl'>
               <label htmlFor="email" className='text-2xl'>Email</label>
@@ -84,14 +84,14 @@ function Login() {
 
       <button type="submit" disabled={isLoggingIn}>
         {isLoggingIn ?  <LoaderCircle size={4} className=' animate-spin'/> : <div className='w-full bg-[#030303] rounded-xl py-2 mt-3 xl:w-xl cursor-pointer'>
-          <span className='flex gap-3 text-2xl items-center justify-center text-white '>Login <MoveRight/> </span>
+          <span className='flex gap-3 text-xl p-1 md:text-2xl items-center justify-center text-white '>Login <MoveRight/> </span>
         </div>}
       </button>
 
             <div className='flex gap-2 justify-between xl:w-xl'>
               <p>Don't have an account?</p>
                   
-              <Link to={'/register'} className='text-[##030303]'>Register Here</Link> 
+              <Link to={'/register'} className='text-[##030303] underline'>Register Here</Link> 
             </div>
         
           </form>
