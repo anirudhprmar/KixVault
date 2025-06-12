@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useParams } from "react-router"
 import { useAdminStore } from "../../store/useAdminStore"
 import { useEffect, useState } from "react"

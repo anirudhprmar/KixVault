@@ -59,7 +59,7 @@ function AdminAddProduct() {
   return (
     <div>
      <form  onSubmit={handleSubmit(onSubmit)}
-     className="grid grid-cols-2 h-screen gap-5"
+     className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full gap-5"
      >
       <div className="p-2 rounded-xl ">
         {/* form details */}

@@ -25,10 +25,10 @@ export default function AdminAuthlayout() {
       <div className="min-h-screen flex flex-col">
         <AuthNavbar />
         <div className="flex flex-1 overflow-hidden">
-          <aside className="w-64 min-h-screen flex-shrink-0 border-r border-gray-200">
+          <aside className=" w-0 md:w-64 min-h-screen flex-shrink-0 border-r border-gray-200 hidden md:block">
             <AdminSidebar />
           </aside>
-          <main className="flex-1 overflow-auto p-8">
+          <main className="flex-1 overflow-auto p-8 ">
             <Outlet />
           </main>
         </div>
